@@ -23,36 +23,47 @@
 
 #include <vector>
 #include <array>
+#include "math.h"
 using namespace std;
 
 
-class Point3 {};
-class Point2 {};
 
+//int main() {
+//	
+//	vector<Point3> Vetices{ };
+//
+//
+//}
 
-int main() {
-	
-	vector<Point3> Vetices{ };
-
-
-}
-
-
-class Matrix {
-public:
-	Point3 operator*(Point3 p) { return Point3(); }
-	Matrix operator*(Matrix m) { return Matrix();  }
+Mat4 Model = array<Vec4, 4>{
+	Vec4{ 1.0f, 1.0f, 1.0f, 1.0f },
+	Vec4{ 1.0f, 1.0f, 1.0f, 1.0f },
+	Vec4{ 1.0f, 1.0f, 1.0f, 1.0f },
+	Vec4{ 1.0f, 1.0f, 1.0f, 1.0f }
 };
 
-Point2 project(const Point3 &p) { return Point2(); }
+Mat4 View = array<Vec4, 4>{
+	Vec4{ 1.0f, 1.0f, 1.0f, 1.0f },
+	Vec4{ 1.0f, 1.0f, 1.0f, 1.0f },
+	Vec4{ 1.0f, 1.0f, 1.0f, 1.0f },
+	Vec4{ 1.0f, 1.0f, 1.0f, 1.0f }
+};
+
+Mat4 Projection = array<Vec4, 4>{
+	Vec4{ 1.0f, 1.0f, 1.0f, 1.0f },
+	Vec4{ 1.0f, 1.0f, 1.0f, 1.0f },
+	Vec4{ 1.0f, 1.0f, 1.0f, 1.0f },
+	Vec4{ 1.0f, 1.0f, 1.0f, 1.0f }
+};
+
+
+Point2 project(const Vec4 &p) { return Point2(); }
 
 
 vector<Point2> VetexShader(vector<Point3> &vetices){
-	Matrix Model, View, Projection;
-	
 	vector<Point2> positions;
 	for (auto &v : vetices) {
-		positions.push_back(project(Projection * View * Model * v));
+		positions.push_back(project(Vec4(v, 1.0f) * Model* View * Projection));
 	}
 		
 	return std::move(positions);
@@ -84,7 +95,7 @@ vector<Triangle> assembly(vector<Point2> &positions) {
 }
 
 
-bool outOfRange(const Point2 &p) {}
+bool outOfRange(const Point2 &p) { return true; }
 
 
 // Viewport
@@ -154,6 +165,4 @@ ColorMap ZTest(FragPtrMap &fragMap) {
 void draw(const ColorMap &colorMap) {
 
 }
-
-
 
